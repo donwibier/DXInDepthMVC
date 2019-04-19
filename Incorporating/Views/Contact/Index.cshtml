@@ -1,0 +1,69 @@
+﻿@model Incorporating.ViewModels.ContactViewModel
+
+<h2>@Model.Title</h2>
+<h3>@Model.Content</h3>
+
+<address>
+	@using (Html.BeginForm("Post", "Contact"))
+	{
+		Html.EnableClientValidation();
+		Html.EnableUnobtrusiveJavaScript();
+	<div id="editableContainer" style="max-width: 700px">
+		
+
+		@Html.DevExpress().FormLayout(settings => {
+	   settings.Name = "FormLayout";
+
+	   var groupItem = settings.Items.AddGroupItem(groupSettings => {
+		   groupSettings.Caption = "Contact";
+		   groupSettings.ShowCaption = DefaultBoolean.True;
+		   groupSettings.GroupBoxDecoration = GroupBoxDecoration.Default;
+	   });
+
+	   groupItem.SettingsItems.ShowCaption = DefaultBoolean.True;
+	   groupItem.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Left;
+
+	   groupItem.SettingsItemHelpTexts.Position = HelpTextPosition.Auto;
+
+	   groupItem.Items.Add(m => m.Name, item => {
+		   item.HelpText = "Help text for Name";
+	   });
+	   groupItem.Items.Add(m => m.Email, item => {
+		   item.HelpText = "Help text for Email";
+	   });
+	   groupItem.Items.Add(m => m.EmailConfirm, item => {
+		   item.HelpText = "Help text for EmailConfirm";
+	   });
+	   groupItem.Items.Add(m => m.Question, item => {
+		   item.HelpText = "Help text for Question";
+	   });
+	   groupItem.Items.Add(item =>
+	   {
+		   item.ShowCaption = DefaultBoolean.False;
+		   item.SetNestedContent(() =>
+		   {
+			   ViewContext.Writer.Write("<div style='float:right'>");
+			   Html.DevExpress().Button(btnSettings =>
+			   {
+				   btnSettings.Name = "btnUpdate";
+				   btnSettings.Text = "OK";				   				   
+				   //btnSettings.ClientSideEvents.Click = String.Format("function(s, e) {{ {0}Grid.UpdateEdit(); }}", Model.ControllerName);
+				   btnSettings.UseSubmitBehavior = true;
+				   btnSettings.CausesValidation = true;
+			   }).Render();
+			   ViewContext.Writer.Write("</div>");
+		   });
+	   });
+
+   }).GetHtml()
+
+	</div>
+	}
+</address>
+
+
+
+<address>
+	<strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
+	<strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+</address>

@@ -1,0 +1,9 @@
+﻿@Html.DevExpress().GetStyleSheets(
+	new StyleSheet { ExtensionSuite = ExtensionSuite.Editors, Theme="Mulberry" }
+
+)
+@Html.DevExpress().Calendar(settings => {
+	settings.Name = "Calendar";
+	settings.Theme = "Mulberry";
+}).GetHtml()
+

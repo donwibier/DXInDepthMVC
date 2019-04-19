@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Incorporating.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,25 +7,34 @@ using System.Web.Mvc;
 
 namespace Incorporating.Controllers
 {
-	public class HomeController : Controller
+	public class HomeController : BaseController<HomeViewModel>
 	{
 		public ActionResult Index()
 		{
-			return View();
+			var model = CreateViewModel();
+			model.Title = "ASP.NET";
+			model.Content = "ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.";
+
+			return View(model);
 		}
 
 		public ActionResult About()
 		{
-			ViewBag.Message = "Your application description page.";
+			var model = CreateViewModel();
+			model.Title = "About";
+			model.Content = "Your application description page.";
+			
 
-			return View();
+			return View(model);
 		}
 
 		public ActionResult Contact()
 		{
-			ViewBag.Message = "Your contact page.";
+			var model = CreateViewModel();
+			model.Title = "Contact";
+			model.Content = "Your contact page";
 
-			return View();
+			return View(model);
 		}
 	}
 }
