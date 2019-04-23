@@ -14,7 +14,8 @@ namespace Incorporating.Controllers
 		{
 				new NavigationItem(){Title ="Home", ActionMethod="Index",Controller="Home" },
 				new NavigationItem(){Title ="About", ActionMethod="About",Controller="Home" },
-				new NavigationItem(){Title ="Contact", ActionMethod="Index",Controller="Contact" }
+				new NavigationItem(){Title ="Contact", ActionMethod="Index",Controller="Contact" },
+				new NavigationItem(){Title ="Invoices", ActionMethod="Index",Controller="Invoice" }
 		};
 
 		protected virtual TViewModelClass CreateViewModel()

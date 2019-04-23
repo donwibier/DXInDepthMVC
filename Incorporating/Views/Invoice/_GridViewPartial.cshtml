@@ -1,0 +1,50 @@
+@{
+	var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "GridView";
+        settings.CallbackRouteValues = new { Controller = "Invoice", Action = "GridViewPartial", TestValue = "So cool" };
+
+				settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Invoice", Action = "GridViewPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Invoice", Action = "GridViewPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Invoice", Action = "GridViewPartialDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+		settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+
+		settings.KeyFieldName = "InvoiceID";
+
+		settings.SettingsPager.Visible = true;
+		settings.Settings.ShowGroupPanel = true;
+		settings.Settings.ShowFilterRow = true;
+		settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+		settings.ClientSideEvents.BeginCallback = @"function(s, e) { 
+		
+			e.customArgs['filterDate'] = dateFilterCtrl.GetDate().toUTCString();
+			e.customArgs['searchText'] = searchBox.GetValue();
+
+		}";
+
+		settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+		settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+		settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+		settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+		settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+				settings.Columns.Add("CustomerID");
+				settings.Columns.Add("InvoiceDate");
+				settings.Columns.Add("BillingAddress");
+				settings.Columns.Add("BillingCity");
+				settings.Columns.Add("BillingState");
+				settings.Columns.Add("BillingCountry");
+				settings.Columns.Add("BillingPostalCode");
+				settings.Columns.Add("Total");
+			});
+		if (ViewData["EditError"] != null){
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model.Invoices).GetHtml()

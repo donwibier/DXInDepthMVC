@@ -6,13 +6,13 @@
 <address>
 	@using (Html.BeginForm("Post", "Contact"))
 	{
-		Html.EnableClientValidation();
-		Html.EnableUnobtrusiveJavaScript();
+	
 	<div id="editableContainer" style="max-width: 700px">
 		
 
 		@Html.DevExpress().FormLayout(settings => {
 	   settings.Name = "FormLayout";
+
 
 	   var groupItem = settings.Items.AddGroupItem(groupSettings => {
 		   groupSettings.Caption = "Contact";
@@ -22,20 +22,68 @@
 
 	   groupItem.SettingsItems.ShowCaption = DefaultBoolean.True;
 	   groupItem.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Left;
-
 	   groupItem.SettingsItemHelpTexts.Position = HelpTextPosition.Auto;
 
-	   groupItem.Items.Add(m => m.Name, item => {
+	   groupItem.Items.Add(m => m.Name, item =>
+	   {
+
+		   item.Name = "Name";
 		   item.HelpText = "Help text for Name";
+		   item.NestedExtension().TextBox(ctrl =>
+		   {
+			   ctrl.Properties.ClientInstanceName = "tbName";
+			   ctrl.Properties.ValidationSettings.SetFocusOnError = true;
+			   ctrl.Properties.ValidationSettings.Assign(Incorporating.Controllers.ContactValidationHelper.NameValidation);
+			   ctrl.Properties.ClientSideEvents.Validation = "function(s, e) { e.isValid = (e.value !== ''); if (!e.isValid) e.message = 'Name is required';}"
+
+
+		});
 	   });
+	   var nameGroup = groupItem.Items.AddGroupItem(nameSettings => {
+		   nameSettings.GroupBoxDecoration = GroupBoxDecoration.None;
+		   nameSettings.ColumnCount = 3;
+		   nameSettings.ShowCaption = DefaultBoolean.False;
+		   nameSettings.Items.Add(m => m.Name.FirstName, item => {
+			   //item.FieldName = "Name.FirstName";
+		   });
+		   nameSettings.Items.Add(item =>
+		   {
+			   item.FieldName = "Name.MiddleName";
+		   });
+		   nameSettings.Items.Add(item =>
+		   {
+			   item.FieldName = "Name.LastName";
+		   });
+	   });
+
+
 	   groupItem.Items.Add(m => m.Email, item => {
 		   item.HelpText = "Help text for Email";
+		   item.NestedExtension().TextBox(ctrl =>
+		   {
+			   ctrl.Properties.ClientInstanceName = "tbEmail";
+			   ctrl.Properties.ValidationSettings.SetFocusOnError = true;
+		   });
 	   });
 	   groupItem.Items.Add(m => m.EmailConfirm, item => {
 		   item.HelpText = "Help text for EmailConfirm";
+		   item.NestedExtension().TextBox(ctrl =>
+		   {
+			   ctrl.Properties.ClientInstanceName = "tbEmailConfirm";
+			   ctrl.Properties.ValidationSettings.SetFocusOnError = true;
+
+		   });
 	   });
 	   groupItem.Items.Add(m => m.Question, item => {
 		   item.HelpText = "Help text for Question";
+		   item.NestedExtension().Memo(ctrl => {
+			   ctrl.Name = "Question";
+			   ctrl.Properties.ClientInstanceName = "mmQuestion";
+			   ctrl.Properties.Rows = 10;
+			   ctrl.Properties.ValidationSettings.SetFocusOnError = true;
+
+		   });
+
 	   });
 	   groupItem.Items.Add(item =>
 	   {
@@ -45,9 +93,8 @@
 			   ViewContext.Writer.Write("<div style='float:right'>");
 			   Html.DevExpress().Button(btnSettings =>
 			   {
-				   btnSettings.Name = "btnUpdate";
-				   btnSettings.Text = "OK";				   				   
-				   //btnSettings.ClientSideEvents.Click = String.Format("function(s, e) {{ {0}Grid.UpdateEdit(); }}", Model.ControllerName);
+				   btnSettings.Name = "btnOK";
+				   btnSettings.Text = "OK";
 				   btnSettings.UseSubmitBehavior = true;
 				   btnSettings.CausesValidation = true;
 			   }).Render();

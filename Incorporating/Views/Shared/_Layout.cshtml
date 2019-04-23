@@ -9,13 +9,17 @@
 	@Scripts.Render("~/bundles/modernizr")
 	@Html.DevExpress().GetStyleSheets(
 		new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
-		new StyleSheet { ExtensionSuite = ExtensionSuite.Editors }
+		new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+		new StyleSheet { ExtensionSuite = ExtensionSuite.GridView }
+
 	)
 	@Scripts.Render("~/bundles/jquery")
 	@Html.DevExpress().GetScripts(
 		new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
-		new Script { ExtensionSuite = ExtensionSuite.Editors }
+		new Script { ExtensionSuite = ExtensionSuite.Editors },
+		new Script { ExtensionSuite = ExtensionSuite.GridView }
 	)
+
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -46,8 +50,8 @@
 		</footer>
 	</div>
 
-	@Scripts.Render("~/bundles/bootstrap")
-
-	@RenderSection("scripts", required: false)
+	@Scripts.Render("~/bundles/bootstrap", "~/Scripts/app.js")
+	
+	@RenderSection("scripts", required: false)	
 </body>
 </html>

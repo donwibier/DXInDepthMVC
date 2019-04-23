@@ -1,0 +1,27 @@
+﻿@model Incorporating.ViewModels.InvoiceViewModel
+
+<div class="row">
+	<div class="col-md-12">
+		@Html.DevExpress().DateEdit(c => {
+	   c.Name = "DateFilter";
+	   c.Properties.Caption = "Select Date";
+	   c.Properties.ClientInstanceName = "dateFilterCtrl";
+   }).GetHtml()
+		@Html.DevExpress().TextBox(c => {
+				c.Name = "SearchBox";
+				c.Properties.Caption = "Search";
+				c.Properties.ClientInstanceName = "searchBox";
+			}).GetHtml()
+		@Html.DevExpress().Button(c => {
+	   c.Name = "FilterBtn";
+	   c.Text = "Filter";
+	   c.EnableClientSideAPI = true;
+	   c.ClientSideEvents.Click = "function(s, e) { GridView.PerformCallback(); }";
+
+   }).GetHtml();
+
+
+		@Html.Action("GridViewPartial")
+
+	</div>
+</div>
